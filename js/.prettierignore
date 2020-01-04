@@ -1,0 +1,12 @@
+dist
+public/
+.cache/
+
+**/src/libs/*
+**/dist/*
+**/wip/*
+
+*.min.js
+
+node_modules/
+bundle.js
