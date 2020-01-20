@@ -1,0 +1,35 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {
+    repositories {
+        google()
+        jcenter()
+        maven {
+            url 'https://plugins.gradle.org/m2/'
+        }
+    }
+
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.5.3'
+        classpath 'io.freefair.gradle:lombok-plugin:4.1.6'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+ext.libs = [
+    'jacksonAnnotations': 'com.fasterxml.jackson.core:jackson-annotations:2.10.1',
+    'jacksonDatabind': 'com.fasterxml.jackson.core:jackson-databind:2.10.1'
+]
+
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
