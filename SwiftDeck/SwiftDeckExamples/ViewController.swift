@@ -12,7 +12,9 @@ import UIKit
 final class ViewController: UIViewController {
 
     #warning("Enter your Mapbox token here")
-    private let mapboxKey = ""
+    private let mapboxToken = ""
+
+    // MARK: - Example Decks
 
     private lazy var usStatesDeck: Deck = {
         let data = Value("https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_110m_admin_1_states_provinces_shp.geojson")
@@ -20,11 +22,11 @@ final class ViewController: UIViewController {
                      "getLineColor": Value([255, 100, 100]), "getFillColor": Value([200, 160, 0, 180])]
         let layer = Layer(identifier: "geojson-usstates", type: .geoJson, data: data, opacity: 0.4, otherProperties: other)
 
-        let view = View(type: .map)
+        let view = View(type: .map, mapProvider: .mapbox(token: mapboxToken, style: .light))
 
         let viewState = ViewState(longitude: -100, latitude: 40, zoom: 2.7, pitch: 30, bearing: 30)
 
-        return Deck(layers: [layer], views: [view], initialViewState: viewState, mapProvider: .mapbox(key: mapboxKey))
+        return Deck(layers: [layer], views: [view], initialViewState: viewState)
     }()
 
     private lazy var californiaDropoffsDeck: Deck = {
@@ -35,11 +37,11 @@ final class ViewController: UIViewController {
                      "getLineColor": Value([255, 100, 100]), "colorRange": Value(colorRange)]
         let layer = Layer(identifier: "screengrid-california", type: .screenGrid, data: data, opacity: 0.8, otherProperties: other)
 
-        let view = View(type: .map)
+        let view = View(type: .map, mapProvider: .mapbox(token: mapboxToken, style: .dark))
 
         let viewState = ViewState(longitude: -119.3, latitude: 35.6, zoom: 5.3, maxZoom: 20)
 
-        return Deck(layers: [layer], views: [view], initialViewState: viewState, mapProvider: .mapbox(key: mapboxKey))
+        return Deck(layers: [layer], views: [view], initialViewState: viewState)
     }()
 
     private lazy var newYorkDropoffDeck: Deck = {
@@ -48,11 +50,11 @@ final class ViewController: UIViewController {
                      "getFillColor": Value([0, 128, 255]), "getRadius": Value(1)]
         let layer = Layer(identifier: "scatterplot-newyork", type: .scatterplot, data: data, otherProperties: other)
 
-        let view = View(type: .map)
+        let view = View(type: .map, mapProvider: .mapbox(token: mapboxToken, style: .light))
 
         let viewState = ViewState(longitude: -73.97, latitude: 40.76, zoom: 11.65, maxZoom: 16.0)
 
-        return Deck(layers: [layer], views: [view], initialViewState: viewState, mapProvider: .mapbox(key: mapboxKey))
+        return Deck(layers: [layer], views: [view], initialViewState: viewState)
     }()
 
     // MARK: - Outlets
