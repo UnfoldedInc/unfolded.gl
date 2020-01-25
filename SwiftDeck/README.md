@@ -1,6 +1,5 @@
-
 # SwiftDeck
-> Swift wrapper around deck.gl
+> ⚠️ EXPERIMENTAL ⚠️ Swift wrapper around deck.gl
 [![Swift Version](https://img.shields.io/badge/Swift-5.0-F16D39.svg?style=flat)](https://swift.org/)
 
 SwiftDeck provides basic API around deck.gl, allowing for easy integration within an iOS, or macOS application. It uses `WKWebView` internally, which embeds the content of a deck.gl-based application within it.
@@ -30,7 +29,7 @@ pod 'SwiftDeck'
 
 ## Usage example
 
-In order to show the map, you'll need a [Mapbox]([https://www.mapbox.com/](https://www.mapbox.com/)) token, which you'd then pass to `MapProvider.mapbox` like so - `MapProvider.mapbox(key: "[YOUR_TOKEN_HERE]")`.
+In order to show Mapbox base maps, you'll need a [Mapbox]([https://www.mapbox.com/](https://www.mapbox.com/)) token, which you'd then pass to `MapProvider.mapbox` like so - `MapProvider.mapbox(token: "[YOUR_TOKEN_HERE]")`.
 
 ```swift
 import SwiftDeck
@@ -42,19 +41,15 @@ let other = ["filled": Value(true), "stroked": Value(true), "lineWidthMinPixels"
              "getLineColor": Value([255, 100, 100]), "getFillColor": Value([200, 160, 0, 180])]
 let layer = Layer(identifier: "geojson-usstates", type: .geoJson, data: data, opacity: 0.4, otherProperties: other)
 
-let view = View(type: .map)
+let view = View(type: .map, mapProvider: .mapbox(token: mapboxToken, style: .light))
 
 let viewState = ViewState(longitude: -100, latitude: 40, zoom: 2.7, pitch: 30, bearing: 30)
 
-let deck = Deck(layers: [layer], views: [view], initialViewState: viewState, mapProvider: .mapbox(key: mapboxKey))
+let deck = Deck(layers: [layer], views: [view], initialViewState: viewState)
 
 deckGLView.update(with: deck)
 ```
 
 For additional examples, see `SwiftDeckExamples` project that's bundled and ready to run.
 
-## Meta
-
-Ilija Puaca  – ilija@unfolded.ai
-
-Distributed under a custom license. See [https://github.com/UnfoldedInc/unfolded.gl#unfoldedgl](https://github.com/UnfoldedInc/unfolded.gl#unfoldedgl) for more information.
+Distributed under a custom license. See [https://github.com/UnfoldedInc/unfolded.gl/blob/master/README.md](https://github.com/UnfoldedInc/unfolded.gl/blob/master/README.md) for more information.
