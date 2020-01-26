@@ -21,11 +21,11 @@ public struct View: Encodable {
     /// View type.
     public let type: Kind
 
+    /// Provider of the underlying map, if one is needed.
+    public let mapProvider: MapProvider?
+
     /// If `true`, the user will be able to interact with the map.
     public let isInteractionEnabled: Bool
-
-    /// Style of underlying map.
-    public let mapStyle: MapStyle
 
     /// Utility structure that represents a relative frame of the view.
     public struct Frame: Encodable {
@@ -92,14 +92,14 @@ public struct View: Encodable {
     ///
     /// - Parameters:
     ///   - type: Type of the view.
+    ///   - mapProvider: Provider for the underlying map, if one is needed.
     ///   - isInteractionEnabled: Flag indicating whether the user should be able to interact with the map or not.
-    ///   - mapStyle: Style of the underlying map.
     ///   - frame: Frame that a view should have.
-    public init(type: Kind, isInteractionEnabled: Bool = true, mapStyle: MapStyle = .light, frame: Frame = .max) {
+    public init(type: Kind, mapProvider: MapProvider? = nil, isInteractionEnabled: Bool = true, frame: Frame = .max) {
         self.type = type
+        self.mapProvider = mapProvider
         self.isInteractionEnabled = isInteractionEnabled
         self.frame = frame
-        self.mapStyle = mapStyle
     }
 
     // MARK: - Encodable implementation
@@ -108,14 +108,16 @@ public struct View: Encodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         try container.encode(type, forKey: .type)
+        if let mapProvider = mapProvider {
+            try mapProvider.encode(to: encoder)
+        }
         try container.encode(isInteractionEnabled, forKey: .isInteractionEnabled)
-        try container.encode(mapStyle, forKey: .mapStyle)
 
         try frame.encode(to: encoder)
     }
 
     private enum CodingKeys: String, CodingKey {
-        case type = "@@type", isInteractionEnabled = "controller", mapStyle
+        case type = "@@type", isInteractionEnabled = "controller"
     }
 
 }

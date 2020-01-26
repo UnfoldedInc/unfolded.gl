@@ -18,9 +18,6 @@ public struct Deck: Encodable {
     /// View state that will be used as the initial value.
     public let initialViewState: ViewState?
 
-    /// Map provider to be used for this deck.
-    public let mapProvider: MapProvider?
-
     /// Other arbitrary arguments relevant to this deck. For more information see
     /// https://github.com/uber/deck.gl/blob/master/docs/api-reference/deck.md
     public let otherProperties: [String: Value]?
@@ -40,12 +37,10 @@ public struct Deck: Encodable {
     ///   - mapProvider: Map provider details, or `nil` if map should not be rendered across any of the `views`.
     ///   - otherProperties: Other properties that this API currently doesn't support, see
     ///     https://github.com/uber/deck.gl/blob/master/docs/api-reference/deck.md
-    public init(layers: [Layer], views: [View], initialViewState: ViewState? = nil, mapProvider: MapProvider? = nil,
-                otherProperties: [String: Value]? = nil) {
+    public init(layers: [Layer], views: [View], initialViewState: ViewState? = nil, otherProperties: [String: Value]? = nil) {
         self.layers = layers
         self.views = views
         self.initialViewState = initialViewState
-        self.mapProvider = mapProvider
         self.otherProperties = otherProperties
     }
 
@@ -57,9 +52,6 @@ public struct Deck: Encodable {
         try container.encode(layers, forKey: .layers)
         try container.encode(views, forKey: .views)
         try container.encodeIfPresent(initialViewState, forKey: .initialViewState)
-        if let mapProvider = mapProvider {
-            try mapProvider.encode(to: encoder)
-        }
         try container.encode(useDevicePixels, forKey: .useDevicePixels)
 
         if let otherProperties = otherProperties {

@@ -9,8 +9,8 @@
 /// Represents a single map provider on top of which layers can be rendered.
 public enum MapProvider: Encodable {
 
-    /// Mapbox-based maps, initialized with a user-specific `key`.
-    case mapbox(key: String)
+    /// Mapbox-based maps, initialized with a user-specific `token`.
+    case mapbox(token: String, style: MapStyle)
 
     // MARK: - Encodable implementation
 
@@ -18,13 +18,14 @@ public enum MapProvider: Encodable {
         var container = encoder.container(keyedBy: CodingKeys.self)
 
         switch self {
-        case let .mapbox(key):
-            try container.encode(key, forKey: .mapboxKey)
+        case let .mapbox(token, style):
+            try container.encode(token, forKey: .mapToken)
+            try container.encode(style, forKey: .mapStyle)
         }
     }
 
     private enum CodingKeys: String, CodingKey {
-        case mapboxKey
+        case mapToken, mapStyle
     }
 
 }
